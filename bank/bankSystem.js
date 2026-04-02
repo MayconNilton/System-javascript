@@ -56,7 +56,7 @@ function fazerLogin() {
     rl.question("CPF: ", (cpf) => {
         rl.question("Senha: ", (senha) => {
 
-            const usuario = usuarios.find(u => u.cpf === cpf && u.senha === senha)
+            const usuario = usuarios.find(Conferir => Conferir.cpf === Number(cpf) && Conferir.senha === Number(senha))
 
             if (usuario) {
                 usuarioLogado = usuario
@@ -105,7 +105,7 @@ function telaInicial() {
     )
 }
 function menuBanco() {
-    rl.question("\nO que voce quer fazer?\n(1) Ver saldo\n(2) Depositar\n(3) Sacar\n(4) Sair\n>",
+    rl.question("\nO que voce quer fazer?\n(1) Ver saldo\n(2) Depositar\n(3) Sacar\n(4) voltar\n(5) Sair\n>",
         (escolha) => {
 
             const opcoes = Number(escolha)
@@ -121,6 +121,10 @@ function menuBanco() {
 
                 case 3:
                     sacarValor()
+                    break
+
+                case 4:
+                    telaInicial()
                     break
 
                 case 4:
