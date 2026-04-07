@@ -1,4 +1,5 @@
 const fs = require("fs")
+const { escape } = require("querystring")
 const readline = require("readline")
 const rl = readline.createInterface({
     input: process.stdin,
@@ -18,7 +19,7 @@ function cadastroAluno() {
         rl.question("Data de nascimento: ", (data) => {
             rl.question("CPF: ", (cpf) => {
                 rl.question("Endereço: ", (endereco) => {
-                    rl.question("Nome do resposavel: ", (nomeResposavel) => {
+                    rl.question("Nome do responsavel: ", (nomeResponsavel) => {
                         rl.question("Serie: ", (serie) => {
                             rl.question("Turno: ", (turno) => {
 
@@ -27,7 +28,7 @@ function cadastroAluno() {
                                     dataNascimento: data,
                                     cpf: cpf,
                                     endereco: endereco,
-                                    nomeDoResponsavel: nomeResposavel,
+                                    nomeDoResponsavel: nomeResponsavel,
                                     serie: serie,
                                     turno: turno,
                                     ra: ra,
@@ -38,7 +39,7 @@ function cadastroAluno() {
 
 
                                 console.log("\nCadastro realizado com sucesso!")
-                                console.log(`Bem-vindo(a), Aluno(a)${nome}!`)
+                                console.log(`Bem-vindo(a), Aluno(a) ${nome}!`)
 
                                 console.log(`\nSeu RA: ${ra}`)
                                 console.log(`Sua senha de login: ${senha}`)
@@ -47,6 +48,7 @@ function cadastroAluno() {
 
 
                                 alunoLogado = novoAluno
+                                menuInicial
                             })
                         })
                     })
@@ -62,14 +64,14 @@ function loginAluno() {
     rl.question("RA: ", (ra) => {
         rl.question("Senha: ", (senha) => {
 
-            const alunoEncontrado = aluno.find(Conferir => Conferir.ra === Number(ra) && Conferir.senha === senha)
+            const alunoEncontrado = aluno.find(Conferir => Conferir.ra === ra && Conferir.senha === senha)
 
             if (alunoEncontrado) {
                 alunoLogado = alunoEncontrado
                 console.log(`\nLogin realizado! bem-vindo(a), ${alunoEncontrado.nome}!`)
                 menuAluno()
             } else {
-                console.log("\nErro! RA ou senha errado")
+                console.log("\nErro! RA ou senha Inválido")
                 loginAluno()
             }
         })
@@ -96,7 +98,7 @@ function menuInicial() {
                 break
 
             default:
-                console.log("Erro! Verifique se escolheu a resposta certa")
+                console.log("Erro! Verifique se escolheu a opção válidas")
                 menuInicial()
                 break;
         }
@@ -119,7 +121,7 @@ function menuAluno() {
                 break;
 
             case 3:
-                FazerProva()
+                fazerProva()
                 break;
 
             case 4:
@@ -132,7 +134,7 @@ function menuAluno() {
                 break;
 
             default:
-                console.log("Erro! Verifique se escolheu a resposta certa")
+                console.log("Erro! Verifique se escolheu a opção válidas")
                 menuAluno()
                 break;
         }
@@ -174,18 +176,155 @@ function trocarSenha() {
     })
 }
 
+function fazerProva() {
+    rl.question("\nQual prova deseja fazer? \n(1) Prova matematica\n(2) Prova de português\n(3) Prova de História\n(4) Prova de Ciências\n(5) Prova de Geografia\n>", (provas) => {
+
+        const escolhas = Number(provas)
+
+        switch (escolhas) {
+            case 1:
+
+                break
+
+            case 2:
+
+                break
+
+            case 3:
+
+                break
+
+            case 4:
+
+                break
+
+            case 5:
+
+                break
+
+            default:
+                break
+        }
+    })
+
+}
+function menuProvaMatematica() {
+    console.log("\n=== PROVA DE MATEMATICA ===")
+
+    rl.question("\nRealizar a prova?\n(1) Sim\n(2) Volta\n>  ", (provas) => {
+        const escolhas = Number(provas)
+
+        switch (escolhas) {
+            case 1:
+                iniciarProvaMatematica()
+                break
+
+            case 2:
+                menuAluno()
+                break
+
+            default:
+                console.log("Erro! Verifique se escolheu a opção válidas")
+                break
+        }
+    })
+}
+function iniciarProvaMatematica() {
+
+    const perguntasMatematicas = [
+        {
+            enunciado: "Quanto é 45 + 28?",
+            opcoes: ["63", "93", "73", "83"],
+            correta: "C"
+        },
+        {
+            enunciado: "Quanto 100 - 36?",
+            opcoes: ["54", "64", "74", "84"],
+            correta: "B"
+        },
+        {
+            enunciado: "Quanto é 7 x 8?",
+            opcoes: ["64", "54", "58", "56"],
+            correta: "D"
+        },
+        {
+            enunciado: "Quanto é 144 ÷ 12?",
+            opcoes: ["10", "25", "12", "23"],
+            correta: "C"
+        },
+        {
+            enunciado: "Um produto custa R$ 120 e teve desconto de R$ 30. Qual o valor final?",
+            opcoes: ["90", "85", "70", "84"],
+            correta: "A"
+        },
+        {
+            enunciado: "Um carro faz 50 km por hora. Em 1h30 horas, percorre:",
+            opcoes: ["82 km", "90 km", "100 km", "75 km"],
+            correta: "B"
+        },
+        {
+            enunciado: "Um carro percorre 120 km em 2 horas. Qual a velocidade média?",
+            opcoes: ["60 km/h", "50 km/h", "40 km/h", "70 km/h"],
+            correta: "A"
+        },
+        {
+            enunciado: "Um produto custa R$ 200 e teve desconto de 20%. Qual o valor final?",
+            opcoes: ["160", "180", "140", "150"],
+            correta: "A"
+        },
+    ]
+
+    const perguntas = perguntasMatematicas
+    let nota = 0
+    let indice = 0
+
+    function perguntar() {
+        if (indice === perguntas.length) {
+            console.log(`\nSua nota final é ${nota}`)
+            menuAluno()
+            return
+        }
+
+        const atual = perguntas[indice]
+
+        rl.question(`\n${atual.enunciado}\n(A) ${atual.opcoes[0]}\n(B) ${atual.opcoes[1]}\n(C) ${atual.opcoes[2]}\n(D) ${atual.opcoes[3]}>`, (resposta) => {
+
+            resposta = resposta.toUpperCase()
+
+            if (!["A", "B", "C", "D"].includes(resposta)) {
+                console.log("Erro! Digite apenas A, B, C ou D")
+                return perguntar()
+            }
+
+            if (resposta === atual.correta) {
+                console.log("Acertou!")
+                nota++
+            } else {
+                console.log(`Errou! Resposta correta: ${atual.correta}`)
+            }
+
+            indice++
+            perguntar()
+        })
+    }
+
+    perguntar()
+}
+
+
+
 
 
 function continuar() {
     rl.question(
-        "\nDeseja fazer outra coisa?\n(1) Sim\n(2) Não\n> ",
+        "\nDeseja Voltar?\n(1) Sim\n(2) Não\n> ",
         (resposta) => {
 
             const verificar = Number(resposta)
 
             switch (verificar) {
                 case 1:
-                    menuInicial
+                    menuInicial()
                     break
 
                 case 2:
